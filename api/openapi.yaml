@@ -7,14 +7,14 @@ info:
     Designed for extensibility to support airports, cities, hotels, cabs, trains.
 
   contact:
-    name: Team--
+    name: Team-Integration-Platform
     email: Team-Integration-Platform@serko.com
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 
 servers:
-  - url: https://example.com
+  - url: https://locations-service-v2-dev.noprd.eos-stack.cloud
     description: "Dev Environment server"
   - url: https://locations-service-v2-test.noprd.eos-stack.cloud
     description: "Test Environment server"
