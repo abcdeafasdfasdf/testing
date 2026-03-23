@@ -2,7 +2,7 @@ name: Trigger Sync
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths: ['api/openapi.yaml']
   
   workflow_dispatch:
