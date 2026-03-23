@@ -1,24 +1,35 @@
-name: Trigger Sync
-
+name: Direct Sync to Docs
 on:
   push:
     branches: [main]
     paths: ['api/openapi.yaml']
-  
-  workflow_dispatch:
-    inputs:
-      reason:
-        description: "Why are you running this sync manually?"
-        required: true
 
 jobs:
-  call-sync:
-    uses: abcdeafasdfasdf/doc/.github/workflows/remote-sync-logic.yaml@main
-    with:
-      service_name: ${{ github.event.repository.name }}
-      spec_path: /account/travellers
-      reason: ${{ github.event.inputs.reason }}
-      pr_id: ${{ github.event.pull_request.number }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout Service Repo
+        uses: actions/checkout@v4
+
+      - name: Create Sync Config
+        run: |
+          mkdir -p .github
+          cat <<EOF > .github/sync.yml
+          abcdeafasdfasdf/doc:
+            - source: api/openapi.yaml
+              dest: api-reference/account/travellers/spec.yaml
+          EOF
+
+      - name: Run GitHub File Sync
+        uses: Redocly/repo-file-sync-action@main
+        with:
+          GH_PAT: ${{ steps.generate_token.outputs.token }}
+          SKIP_PR: true
+          COMMIT_PREFIX: "Sync: ${{ github.event.repository.name }} 🔄 "
