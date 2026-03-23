@@ -13,7 +13,7 @@ on:
 
 jobs:
   call-sync:
-    uses: amitpanwar789/docs/.github/workflows/remote-sync-logic.yaml@main
+    uses: abcdeafasdfasdf/docs/.github/workflows/remote-sync-logic.yaml@main
     with:
       service_name: ${{ github.event.repository.name }}
       spec_path: /account/travellers
