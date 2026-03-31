@@ -29,4 +29,5 @@ jobs:
             --branch "main" \
             --author "API Sync Bot <bot@docs.com>" \
             --message "Hey" \
-            --wait-for-deployment
+            --wait-for-deployment \
+            --verbose
