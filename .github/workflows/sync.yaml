@@ -27,7 +27,7 @@ jobs:
             --project "bnima" \
             --mount-path "/api-reference/remotes/cicd" \
             --default-branch "main" \
-            --branch "${{ github.ref_name }}" \
+            --branch "main" \
             --author "API Sync Bot <bot@docs.com>" \
             --message "Hey" \
             --wait-for-deployment
