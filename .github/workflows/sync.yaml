@@ -26,13 +26,7 @@ jobs:
             --organization "bnima" \
             --project "bnima" \
             --mount-path "/api-reference/remotes/cicd" \
-            --default-branch "${{ github.event.repository.default_branch || github.event.repository.master_branch }}" \
+            --default-branch "main" \
             --branch "${{ github.ref_name }}" \
             --author "API Sync Bot <bot@docs.com>" \
-            --commit-sha "${{ github.event.head_commit.id }}" \
-            --commit-url "${{ github.event.head_commit.url }}" \
-            --namespace "${{ github.event.repository.owner.login }}" \
-            --repository "${{ github.event.repository.name }}" \
-            --created-at "${{ github.event.head_commit.timestamp }}" \
-            --message "${{ github.event.head_commit.message }}" \
             --wait-for-deployment
