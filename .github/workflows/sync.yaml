@@ -29,4 +29,5 @@ jobs:
             --default-branch "main" \
             --branch "${{ github.ref_name }}" \
             --author "API Sync Bot <bot@docs.com>" \
+            --message "Hey" \
             --wait-for-deployment
