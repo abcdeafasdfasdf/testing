@@ -26,7 +26,6 @@ jobs:
             --organization "bnima" \
             --project "bnima" \
             --mount-path "/api-reference/remotes/cicd" \
-            --default-branch "main" \
             --branch "main" \
             --author "API Sync Bot <bot@docs.com>" \
             --message "Hey" \
