@@ -2,7 +2,7 @@ name: Direct Sync to Docs
 on:
   push:
     branches: [main]
-    paths: ['api/openapi.yaml']
+    paths: ["api/openapi.yaml"]
   workflow_dispatch:
     inputs:
       reason:
@@ -11,11 +11,28 @@ on:
 
 jobs:
   sync:
-    uses: abcdeafasdfasdf/doc/.github/workflows/remote-sync-logic.yaml@main
-    with:
-      service_name: "api-service"
-      spec_path: "/account/travellers"
-      source_file: "api/openapi.yaml"
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Redocly CLI
+        run: npm install -g @redocly/cli
+
+      - name: Push to Redocly
+        run: |
+          REDOCLY_AUTHORIZATION=sk_FTv600srVU_3Rj2AupCIXEs7oOveCHtizBBSx9Qf-_kMXe7VhQS8mfnWSC6lz7OBP5o \
+          npx @redocly/cli push api/openapi.yaml \
+            --organization "bnima" \
+            --project "bnima" \
+            --mount-path "/api-reference/remotes/cicd" \
+            --default-branch "${{ github.event.repository.default_branch || github.event.repository.master_branch }}" \
+            --branch "${{ github.ref_name }}" \
+            --author "API Sync Bot <bot@docs.com>" \
+            --commit-sha "${{ github.event.head_commit.id }}" \
+            --commit-url "${{ github.event.head_commit.url }}" \
+            --namespace "${{ github.event.repository.owner.login }}" \
+            --repository "${{ github.event.repository.name }}" \
+            --created-at "${{ github.event.head_commit.timestamp }}" \
+            --message "${{ github.event.head_commit.message }}" \
+            --wait-for-deployment
